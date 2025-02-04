@@ -4,6 +4,7 @@ import Cards from "./components/Cards";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddCart from "./components/AddCart";
 import { CartProvider } from "./components/CardContext";
+import Product from "./components/ProductDetail";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             }
           />
           <Route path="/addcart" element={<AddCart />} />
+          <Route path="/product/:id" element={<Product />} />
         </Routes>
       </Router>
     </CartProvider>
