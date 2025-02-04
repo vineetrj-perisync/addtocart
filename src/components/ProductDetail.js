@@ -89,7 +89,7 @@ const ProductDetail = () => {
                 ) : (
                   <button
                     className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-700"
-                    onClick={() => incrementQuantity(product)} // Pass the full product object to add to cart
+                    onClick={() => incrementQuantity(product)} 
                   >
                     Add to Cart
                   </button>
@@ -118,7 +118,7 @@ const ProductDetail = () => {
             <div className="text-lg font-semibold">About the Product</div>
 
             <div className="py-2 pb-6 border-b">
-              A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped...
+             A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped. They have thick, fleshy, deeply coloured roots which grow underground and feathery green leaves that emerge above the ground. While these greens are fresh-tasting and slightly bitter, the carrot roots are crunchy textured with a sweet and minty aromatic taste. Fresho! brings you the flavour and richness of the finest crispy and juicy carrots that are locally grown and the best of the region.
             </div>
             <div className="font-semibold py-3">Other Product Info</div>
             <div>EAN Code: {product.id}</div>
