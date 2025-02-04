@@ -50,9 +50,9 @@ function AddCart() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between border p-4 mb-2 bg-white shadow-md rounded "
+                  className="flex items-center justify-between border p-4 mb-2 bg-white shadow-md rounded  "
                 >
-                  <div className="flex items-center gap-4 w-1/4">
+                  <div className=" md:flex items-center gap-4 w-1/4 fle-col">
                     <img
                       src={item.photo_url}
                       alt={item.name}
