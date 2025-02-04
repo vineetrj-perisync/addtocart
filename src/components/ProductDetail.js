@@ -29,7 +29,7 @@ const ProductDetail = () => {
   }
 
   const remainingProducts = products.filter((item) => item.id.toString() !== id);
-  const quantity = cart[product.id]?.count || 0;
+  const quantity = cart[product.id]?.count || 0; // Get the quantity of the product in the cart
 
   return (
     <>
@@ -52,90 +52,88 @@ const ProductDetail = () => {
               className="w-full h-[400px] object-cover"
             />
           </div>
-          <div className=" flex flex-col md:w-1/2 px-4">
+          <div className="flex flex-col md:w-1/2 px-4">
             <div className="text-gray-300">fresho!</div>
             <h1 className="text-2xl font-semibold mb-4">fresho! {product.name} (Loose), 1 kg</h1>
             <p className="text-sm font-medium mb-4">{product.description}</p>
-            <p className="text-xl font-semibold">Price: ₹{parseFloat(product.price).toFixed(2)} <span className="text-gray-300 text-[16px]">({parseFloat(product.price).toFixed(2)}/kg)</span></p>
+            <p className="text-xl font-semibold">
+              Price: ₹{parseFloat(product.price).toFixed(2)}{" "}
+              <span className="text-gray-300 text-[16px]">({parseFloat(product.price).toFixed(2)}/kg)</span>
+            </p>
             <p> You Save:15% OFF</p>
             <p className="text-gray-400">(inclusive of all taxes)</p>
-            <div className="flex justify-center items-center border border-black  my-4 bg-gradient-to-r from-white  to-red-500 text-red-900 rounded-sm">Har din Sasta!</div>
+            <div className="flex justify-center items-center border border-black my-4 bg-gradient-to-r from-white to-red-500 text-red-900 rounded-sm">
+              Har din Sasta!
+            </div>
             <div className="flex items-center mt-4 justify-between">
               <div className="">
                 {quantity > 0 ? (
                   <div className="flex items-center gap-2">
                     <button
                       className="bg-red-700 px-3 py-1 rounded-l text-white"
-                      onClick={() => decrementQuantity(product.id)}
+                      onClick={() => decrementQuantity(product.id)} // Pass product.id for decrement
                     >
                       -
                     </button>
                     <span className="px-4 py-0.5 bg-white border text-lg">{quantity}</span>
                     <button
                       className="bg-red-700 px-3 py-1 rounded-r text-white"
-                      onClick={() => incrementQuantity(product)}
+                      onClick={() => incrementQuantity(product.id)} // Pass product.id for increment
                     >
                       +
                     </button>
                   </div>
                 ) : (
                   <button
-                    className="bg-red-700 text-white py-2 px-4 rounded  hover:bg-red-700"
-                    onClick={() => incrementQuantity(product)}
+                    className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-700"
+                    onClick={() => incrementQuantity(product.id)} // Pass product.id to add to cart
                   >
                     Add to Cart
                   </button>
-                )}</div>
-              <div className="flex items-center px-2 ">
+                )}
+              </div>
+              <div className="flex items-center px-2">
                 <button className="border border-black flex items-center px-2 py-1.5 gap-2 rounded-md">
                   <div>
                     <img src="/images/save.png" alt="" className="w-6" />
                   </div>
-                  <div className="text-lg font-semibold d"> Save For later</div>
+                  <div className="text-lg font-semibold">Save For later</div>
                 </button>
               </div>
             </div>
             <div className="text-gray-400 py-4 flex gap-2">
-              <div> <img src="/images/delivery-bike.png" alt="" className="w-6"></img></div>
+              <div>
+                <img src="/images/delivery-bike.png" alt="" className="w-6" />
+              </div>
               <div>Earliest:Get in 10 mins</div>
             </div>
           </div>
-
         </div>
-        <div className=" flex flex-col container py-8  ">
-          <h2 className="text-xl  font-semibold py-3">fresho! {product.name} (Loose)</h2>
+        <div className="flex flex-col container py-8">
+          <h2 className="text-xl font-semibold py-3">fresho! {product.name} (Loose)</h2>
           <div className="border border-black p-5 rounded-md">
             <div className="text-lg font-semibold">About the Product</div>
 
-            <div className="py-2 pb-6 border-b ">
-              A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped. They have thick, fleshy, deeply coloured roots which grow underground and feathery green leaves that emerge above the ground. While these greens are fresh-tasting and slightly bitter, the carrot roots are crunchy textured with a sweet and minty aromatic taste. Fresho! brings you the flavour and richness of the finest crispy and juicy carrots that are locally grown and the best of the region.
-              <br></br>
-              In the vibrant tapestry of Indian cuisine, orange carrots play a versatile role, prized for their sweetness and vibrant hue. Whether grated into salads, blended into creamy soups, or incorporated into decadent desserts like gajar ka halwa, these carrots lend their distinct flavour and colour. In traditional Indian households, they are a staple vegetable used in everyday cooking, enhancing dishes with their natural sweetness. Carrots are also pickled or added to savoury snacks like samosas for added texture and flavour. Their availability year-round and adaptability in both sweet and savoury preparations make them a beloved ingredient across India's diverse culinary landscape.
-              <br></br>
-
+            <div className="py-2 pb-6 border-b">
+              A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped...
             </div>
             <div className="font-semibold py-3">Other Product Info</div>
-            <div className="">EAN Code: {product.id}</div>
+            <div>EAN Code: {product.id}</div>
           </div>
         </div>
 
-        <div className=" flex flex-col container py-8 ">
-          <h2 className="text-xl  font-semibold py-3">Rating and Reviews</h2>
-          <div className=" flex flex-col border border-black p-5 rounded-md">
-
-
-            <div className="py-2 flex justify-center items-center ">
-                <div> <img src="/images/feedback.png" alt="" className="w-20"></img> </div>
-
+        <div className="flex flex-col container py-8">
+          <h2 className="text-xl font-semibold py-3">Rating and Reviews</h2>
+          <div className="flex flex-col border border-black p-5 rounded-md">
+            <div className="py-2 flex justify-center items-center">
+              <div>
+                <img src="/images/feedback.png" alt="" className="w-20" />
+              </div>
             </div>
-            <div className=" text-center text-gray-400 py-3">Want to rate this product?</div>
+            <div className="text-center text-gray-400 py-3">Want to rate this product?</div>
             <div className="text-center">You can rate or review this product only after purchasing from bigbasket</div>
           </div>
-
-
         </div>
-
-
 
         <div className="mt-12">
           <h2 className="text-2xl font-semibold mb-6">Related Products</h2>
