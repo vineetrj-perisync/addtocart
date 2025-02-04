@@ -71,14 +71,17 @@ const ProductDetail = () => {
                   <div className="flex items-center gap-2">
                     <button
                       className="bg-red-700 px-3 py-1 rounded-l text-white"
-                      onClick={() => decrementQuantity(product.id)} // Pass product.id for decrement
+                      onClick={() => {
+                        
+                        decrementQuantity(product.id);
+                      }}
                     >
                       -
                     </button>
                     <span className="px-4 py-0.5 bg-white border text-lg">{quantity}</span>
                     <button
                       className="bg-red-700 px-3 py-1 rounded-r text-white"
-                      onClick={() => incrementQuantity(product.id)} // Pass product.id for increment
+                      onClick={() => incrementQuantity(product)} // Pass the full product object for increment
                     >
                       +
                     </button>
@@ -86,7 +89,7 @@ const ProductDetail = () => {
                 ) : (
                   <button
                     className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-700"
-                    onClick={() => incrementQuantity(product.id)} // Pass product.id to add to cart
+                    onClick={() => incrementQuantity(product)} // Pass the full product object to add to cart
                   >
                     Add to Cart
                   </button>
