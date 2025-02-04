@@ -1,17 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom"; 
+import { useParams, useNavigate, Link } from "react-router-dom";
 import Navbar from "./Navbar";
-import { CartContext } from "./CardContext"; // Assuming CartContext is used
+import { CartContext } from "./CardContext";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
-  const [addedToCart, setAddedToCart] = useState(false); // Track if product is added to cart
-  const navigate = useNavigate(); // Hook to navigate programmatically
-  const { addToCart } = useContext(CartContext); // Using the CartContext to add products to the cart
+  const navigate = useNavigate();
+  const { cart, incrementQuantity, decrementQuantity } = useContext(CartContext);
 
-  // Fetch all products to display remaining products
   useEffect(() => {
     const apiUrl =
       "https://gist.githubusercontent.com/ChrisNjubi/1d3c5ac9974b8cac73d48a756d3b7a42/raw/0db36c0ed658d91140714c459e7a5c0570d9e537/gistfile1.txt";
@@ -19,9 +17,9 @@ const ProductDetail = () => {
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        setProducts(data); // Set all products
-        const productDetail = data.find((item) => item.id.toString() === id); // Find the selected product
-        setProduct(productDetail); // Set the selected product
+        setProducts(data);
+        const productDetail = data.find((item) => item.id.toString() === id);
+        setProduct(productDetail);
       })
       .catch((error) => console.error("Error fetching product details:", error));
   }, [id]);
@@ -30,22 +28,23 @@ const ProductDetail = () => {
     return <p>Loading...</p>;
   }
 
-  // Filter out the selected product to show the remaining products
   const remainingProducts = products.filter((item) => item.id.toString() !== id);
-
-  // Handle Add to Cart action
-  const handleAddToCart = (product) => {
-    addToCart(product);
-    setAddedToCart(true);
-    setTimeout(() => setAddedToCart(false), 3000); // Hide the message after 3 seconds
-  };
+  const quantity = cart[product.id]?.count || 0;
 
   return (
     <>
       <Navbar />
       <div className="container mx-auto p-6">
-        {/* Product Detail */}
-        <div className="flex flex-col md:flex-row">
+        <div className="mt-6 my-5">
+          <button
+            onClick={() => navigate(-1)}
+            className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-500"
+          >
+            Back to Products
+          </button>
+        </div>
+
+        <div className="flex flex-col md:flex-row border-b-2 border-dotted pb-5">
           <div className="md:w-1/2 p-4 border-2 rounded-lg">
             <img
               src={product.photo_url}
@@ -53,47 +52,91 @@ const ProductDetail = () => {
               className="w-full h-[400px] object-cover"
             />
           </div>
-          <div className="md:w-1/2 p-4">
-            <h1 className="text-2xl font-semibold mb-4">{product.name}</h1>
-            <p className="text-sm font-medium mb-4">
-              {product.description}
-              {product.name} are an important part of a healthy eating pattern and are excellent sources of many nutrients, including potassium, fiber, folate (folic acid), and vitamins A, E, and C. These nutrients are vital for overall health and maintenance of body systems:
-             <br/>
-              
-              Potassium: This nutrient may help to maintain healthy blood pressure. A few sources of potassium include sweet potatoes, white potatoes, tomato products, and spinach.
-              
-              Fiber: Fiber regulates bowel function, helps reduce blood cholesterol levels, and may lower the risk of heart disease.
-              
-              Folate (folic acid): The body uses folate to form healthy red blood cells. Women of childbearing age who may become pregnant and those in the first trimester of pregnancy need adequate folate to reduce the risk of neural tube defects such as spina bifida during fetal development.
-            </p>
-            <p className="text-xl font-semibold">₹{parseFloat(product.price).toFixed(2)}</p>
+          <div className=" flex flex-col md:w-1/2 px-4">
+            <div className="text-gray-300">fresho!</div>
+            <h1 className="text-2xl font-semibold mb-4">fresho! {product.name} (Loose), 1 kg</h1>
+            <p className="text-sm font-medium mb-4">{product.description}</p>
+            <p className="text-xl font-semibold">Price: ₹{parseFloat(product.price).toFixed(2)} <span className="text-gray-300 text-[16px]">({parseFloat(product.price).toFixed(2)}/kg)</span></p>
+            <p> You Save:15% OFF</p>
+            <p className="text-gray-400">(inclusive of all taxes)</p>
+            <div className="flex justify-center items-center border border-black  my-4 bg-gradient-to-r from-white  to-red-500 text-red-900 rounded-sm">Har din Sasta!</div>
+            <div className="flex items-center mt-4 justify-between">
+              <div className="">
+                {quantity > 0 ? (
+                  <div className="flex items-center gap-2">
+                    <button
+                      className="bg-red-700 px-3 py-1 rounded-l text-white"
+                      onClick={() => decrementQuantity(product.id)}
+                    >
+                      -
+                    </button>
+                    <span className="px-4 py-0.5 bg-white border text-lg">{quantity}</span>
+                    <button
+                      className="bg-red-700 px-3 py-1 rounded-r text-white"
+                      onClick={() => incrementQuantity(product)}
+                    >
+                      +
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    className="bg-red-700 text-white py-2 px-4 rounded  hover:bg-red-700"
+                    onClick={() => incrementQuantity(product)}
+                  >
+                    Add to Cart
+                  </button>
+                )}</div>
+              <div className="flex items-center px-2 ">
+                <button className="border border-black flex items-center px-2 py-1.5 gap-2 rounded-md">
+                  <div>
+                    <img src="/images/save.png" alt="" className="w-6" />
+                  </div>
+                  <div className="text-lg font-semibold d"> Save For later</div>
+                </button>
+              </div>
+            </div>
+            <div className="text-gray-400 py-4 flex gap-2">
+              <div> <img src="/images/delivery-bike.png" alt="" className="w-6"></img></div>
+              <div>Earliest:Get in 10 mins</div>
+            </div>
+          </div>
 
-            {/* Add to Cart Button */}
-            <button
-              onClick={() => handleAddToCart(product)}
-              className="bg-green-500 text-white py-2 px-4 rounded mt-4 hover:bg-green-700"
-            >
-              Add to Cart
-            </button>
+        </div>
+        <div className=" flex flex-col container py-8  ">
+          <h2 className="text-xl  font-semibold py-3">fresho! {product.name} (Loose)</h2>
+          <div className="border border-black p-5 rounded-md">
+            <div className="text-lg font-semibold">About the Product</div>
 
-            {/* Display message when product is added to the cart */}
-            {addedToCart && (
-              <p className="mt-2 text-green-500 font-semibold">An Item is added to your basket successfully</p>
-            )}
+            <div className="py-2 pb-6 border-b ">
+              A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped. They have thick, fleshy, deeply coloured roots which grow underground and feathery green leaves that emerge above the ground. While these greens are fresh-tasting and slightly bitter, the carrot roots are crunchy textured with a sweet and minty aromatic taste. Fresho! brings you the flavour and richness of the finest crispy and juicy carrots that are locally grown and the best of the region.
+              <br></br>
+              In the vibrant tapestry of Indian cuisine, orange carrots play a versatile role, prized for their sweetness and vibrant hue. Whether grated into salads, blended into creamy soups, or incorporated into decadent desserts like gajar ka halwa, these carrots lend their distinct flavour and colour. In traditional Indian households, they are a staple vegetable used in everyday cooking, enhancing dishes with their natural sweetness. Carrots are also pickled or added to savoury snacks like samosas for added texture and flavour. Their availability year-round and adaptability in both sweet and savoury preparations make them a beloved ingredient across India's diverse culinary landscape.
+              <br></br>
+
+            </div>
+            <div className="font-semibold py-3">Other Product Info</div>
+            <div className="">EAN Code: {product.id}</div>
           </div>
         </div>
 
-        {/* Back Button */}
-        <div className="mt-6">
-          <button
-            onClick={() => navigate(-1)} // Navigate back to the previous page
-            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-          >
-            Back to Products
-          </button>
+        <div className=" flex flex-col container py-8 ">
+          <h2 className="text-xl  font-semibold py-3">Rating and Reviews</h2>
+          <div className=" flex flex-col border border-black p-5 rounded-md">
+
+
+            <div className="py-2 flex justify-center items-center ">
+                <div> <img src="/images/feedback.png" alt="" className="w-20"></img> </div>
+
+            </div>
+            <div className=" text-center text-gray-400 py-3">Want to rate this product?</div>
+            <div className="text-center">You can rate or review this product only after purchasing from bigbasket</div>
+          </div>
+
+
         </div>
 
-        {/* Remaining Products */}
+
+
         <div className="mt-12">
           <h2 className="text-2xl font-semibold mb-6">Related Products</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

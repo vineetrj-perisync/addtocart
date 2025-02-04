@@ -5,21 +5,30 @@ import Navbar from "./Navbar";
 function AddCart() {
   const { cart, incrementQuantity, decrementQuantity } = useContext(CartContext);
 
- 
+
   const calculateSubtotal = (item) => {
     return parseFloat(item.price) * (item.count || 1);
   };
 
-  // Calculate the total amount for all cart items
+
   const calculateTotal = () =>
     Object.values(cart).reduce((total, item) => total + calculateSubtotal(item), 0);
 
-  const deliveryCharge = 30; 
+  const deliveryCharge = 30;
 
   return (
     <>
       <Navbar />
+
       <div className="container mx-auto mt-10 px-4">
+        <div className="flex py-2">
+          <button
+            className=" bg-red-700 text-white px-4 py-2 rounded "
+            onClick={() => window.history.back()}
+          >
+            Continue Shopping
+          </button>
+        </div>
         <div className="bg-white shadow-md rounded p-4 mb-6">
           <h1 className="text-2xl font-bold">Your Basket</h1>
           {Object.keys(cart).length === 0 && (
@@ -41,7 +50,7 @@ function AddCart() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between border p-4 mb-2 bg-white shadow-md rounded"
+                  className="flex items-center justify-between border p-4 mb-2 bg-white shadow-md rounded "
                 >
                   <div className="flex items-center gap-4 w-1/4">
                     <img
@@ -96,7 +105,7 @@ function AddCart() {
             <div className="flex justify-end mt-6">
               <button
                 className="px-6 py-2 bg-green-600 text-white rounded"
-                onClick={() => alert("Proceeding to Checkout")}
+
               >
                 Checkout
               </button>
@@ -104,14 +113,7 @@ function AddCart() {
           </div>
         )}
 
-        <div className="flex mt-4">
-          <button
-            className="mt-6 bg-red-700 text-white px-4 py-2 rounded mb-3"
-            onClick={() => window.history.back()}
-          >
-            Continue Shopping
-          </button>
-        </div>
+
       </div>
     </>
   );

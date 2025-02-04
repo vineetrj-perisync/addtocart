@@ -62,33 +62,35 @@ const Cards = () => {
                 ₹{originalPrice} <strike className="text-[13px] text-gray-300">₹{discountedPrice}</strike>
               </p>
 
-              <div className="flex items-center gap-4 mt-10">
+              <div className="flex items-center gap-4 mt-10 ">
                 <button className="border border-black p-2">
                   <img src="images/save.png" alt="" className="w-6" />
                 </button>
                 {count > 0 ? (
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2  w-[150px] p-1">
                     <button
-                      className="px-3 py-1 bg-red-700 rounded text-white"
+                      className="px-3 py-1 bg-red-700 rounded text-white w-[60px] "
                       onClick={() => decrementQuantity(card.id)}
                     >
                       -
                     </button>
                     <span className="font-semibold text-lg">{count}</span>
                     <button
-                      className="px-3 py-1 bg-red-700 rounded text-white"
+                      className="px-3 py-1 bg-red-700 rounded text-white w-[60px]"
                       onClick={() => incrementQuantity(card)}
                     >
                       +
                     </button>
                   </div>
                 ) : (
-                  <button
+                  <div>
+                    <button
                     className="p-2 hover:bg-red-700 w-[150px] hover:text-white border border-black rounded-sm font-semibold"
-                    onClick={() => addToCart(card)} // Add to cart here
+                    onClick={() => addToCart(card)}
                   >
                     Add
                   </button>
+                  </div>
                 )}
               </div>
             </div>
