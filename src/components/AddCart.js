@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
 import { CartContext } from "./CardContext";
 import Navbar from "./Navbar";
+import Add from "./Add"; // ✅ Import the Add component
 
 function AddCart() {
-  const { cart, incrementQuantity, decrementQuantity } = useContext(CartContext);
-
+  const { cart } = useContext(CartContext);
 
   const calculateSubtotal = (item) => {
     return parseFloat(item.price) * (item.count || 1);
   };
-
 
   const calculateTotal = () =>
     Object.values(cart).reduce((total, item) => total + calculateSubtotal(item), 0);
@@ -50,9 +49,9 @@ function AddCart() {
               return (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between border p-4 mb-2 bg-white shadow-md rounded  "
+                  className="flex items-center justify-between border p-4 mb-2 bg-white shadow-md rounded"
                 >
-                  <div className=" md:flex items-center gap-4 w-1/4 fle-col">
+                  <div className="md:flex items-center gap-4 w-1/4 flex-col">
                     <img
                       src={item.photo_url}
                       alt={item.name}
@@ -64,21 +63,8 @@ function AddCart() {
                     </div>
                   </div>
 
-                  <div className="flex items-center justify-center w-1/4">
-                    <button
-                      className="px-3 py-1 bg-red-700 text-white rounded"
-                      onClick={() => decrementQuantity(item.id)}
-                    >
-                      -
-                    </button>
-                    <span className="mx-3 font-semibold">{item.count}</span>
-                    <button
-                      className="px-3 py-1 bg-red-700 text-white rounded"
-                      onClick={() => incrementQuantity(item)}
-                    >
-                      +
-                    </button>
-                  </div>
+                  {/* ✅ Use the Add component instead of buttons */}
+                  <Add item={item} />
 
                   <p className="font-semibold w-1/4 text-right">₹{subtotal}</p>
                 </div>
@@ -103,21 +89,15 @@ function AddCart() {
               <span>₹{(calculateTotal() + deliveryCharge).toFixed(2)}</span>
             </div>
             <div className="flex justify-end mt-6">
-              <button
-                className="px-6 py-2 bg-green-600 text-white rounded"
-
-              >
+              <button className="px-6 py-2 bg-green-600 text-white rounded">
                 Checkout
               </button>
             </div>
           </div>
         )}
-
-
       </div>
     </>
   );
 }
 
 export default AddCart;
-

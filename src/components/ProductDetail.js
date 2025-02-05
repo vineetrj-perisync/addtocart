@@ -2,13 +2,15 @@ import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Navbar from "./Navbar";
 import { CartContext } from "./CardContext";
+import Add from "./Add"; // ✅ Import Add component
+import Save from "./Save";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const { cart, incrementQuantity, decrementQuantity } = useContext(CartContext);
+  const { cart } = useContext(CartContext);
 
   useEffect(() => {
     const apiUrl =
@@ -29,7 +31,7 @@ const ProductDetail = () => {
   }
 
   const remainingProducts = products.filter((item) => item.id.toString() !== id);
-  const quantity = cart[product.id]?.count || 0; // Get the quantity of the product in the cart
+  const quantity = cart[product.id]?.count || 0; // ✅ Get quantity from cart
 
   return (
     <>
@@ -65,45 +67,22 @@ const ProductDetail = () => {
             <div className="flex justify-center items-center border border-black my-4 bg-gradient-to-r from-white to-red-500 text-red-900 rounded-sm">
               Har din Sasta!
             </div>
+
             <div className="flex items-center mt-4 justify-between">
-              <div className="">
-                {quantity > 0 ? (
-                  <div className="flex items-center gap-2">
-                    <button
-                      className="bg-red-700 px-3 py-1 rounded-l text-white"
-                      onClick={() => {
-                        
-                        decrementQuantity(product.id);
-                      }}
-                    >
-                      -
-                    </button>
-                    <span className="px-4 py-0.5 bg-white border text-lg">{quantity}</span>
-                    <button
-                      className="bg-red-700 px-3 py-1 rounded-r text-white"
-                      onClick={() => incrementQuantity(product)} // Pass the full product object for increment
-                    >
-                      +
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    className="bg-red-700 text-white py-2 px-4 rounded hover:bg-red-700"
-                    onClick={() => incrementQuantity(product)} 
-                  >
-                    Add to Cart
-                  </button>
-                )}
+              <div>
+                <Add item={product} />
               </div>
               <div className="flex items-center px-2">
                 <button className="border border-black flex items-center px-2 py-1.5 gap-2 rounded-md">
-                  <div>
-                    <img src="/images/save.png" alt="" className="w-6" />
-                  </div>
+                 
+                <Save border={false} />
+
+                 
                   <div className="text-lg font-semibold">Save For later</div>
                 </button>
               </div>
             </div>
+
             <div className="text-gray-400 py-4 flex gap-2">
               <div>
                 <img src="/images/delivery-bike.png" alt="" className="w-6" />
@@ -112,13 +91,13 @@ const ProductDetail = () => {
             </div>
           </div>
         </div>
+
         <div className="flex flex-col container py-8">
           <h2 className="text-xl font-semibold py-3">fresho! {product.name} (Loose)</h2>
           <div className="border border-black p-5 rounded-md">
             <div className="text-lg font-semibold">About the Product</div>
-
             <div className="py-2 pb-6 border-b">
-             A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped. They have thick, fleshy, deeply coloured roots which grow underground and feathery green leaves that emerge above the ground. While these greens are fresh-tasting and slightly bitter, the carrot roots are crunchy textured with a sweet and minty aromatic taste. Fresho! brings you the flavour and richness of the finest crispy and juicy carrots that are locally grown and the best of the region.
+              A popular sweet-tasting root vegetable, carrots are narrow and cone-shaped. They have thick, fleshy, deeply coloured roots which grow underground and feathery green leaves that emerge above the ground. While these greens are fresh-tasting and slightly bitter, the carrot roots are crunchy textured with a sweet and minty aromatic taste. Fresho! brings you the flavour and richness of the finest crispy and juicy carrots that are locally grown and the best of the region.
             </div>
             <div className="font-semibold py-3">Other Product Info</div>
             <div>EAN Code: {product.id}</div>

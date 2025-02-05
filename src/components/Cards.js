@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useContext } from "react";
 import { CartContext } from "./CardContext";
 import { Link } from "react-router-dom";
-
+import Add from "./Add"; // ✅ Import the Add component
+import Save from "./Save";
 
 const Cards = () => {
   const [cards, setCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(4);
-  const { cart, incrementQuantity, decrementQuantity, addToCart } = useContext(CartContext);
+  const { cart, addToCart } = useContext(CartContext);
 
   const apiUrl =
     "https://gist.githubusercontent.com/ChrisNjubi/1d3c5ac9974b8cac73d48a756d3b7a42/raw/0db36c0ed658d91140714c459e7a5c0570d9e537/gistfile1.txt";
@@ -63,34 +64,18 @@ const Cards = () => {
               </p>
 
               <div className="flex items-center gap-4 mt-10 ">
-                <button className="border border-black p-2">
-                  <img src="images/save.png" alt="" className="w-6" />
-                </button>
+              <Save border={true} />
+
                 {count > 0 ? (
-                  <div className="flex items-center gap-2  w-[150px] p-1">
-                    <button
-                      className="px-3 py-1 bg-red-700 rounded text-white w-[60px] "
-                      onClick={() => decrementQuantity(card.id)}
-                    >
-                      -
-                    </button>
-                    <span className="font-semibold text-lg">{count}</span>
-                    <button
-                      className="px-3 py-1 bg-red-700 rounded text-white w-[60px]"
-                      onClick={() => incrementQuantity(card)}
-                    >
-                      +
-                    </button>
-                  </div>
+                  
+                  <Add item={card} />
                 ) : (
-                  <div>
-                    <button
+                  <button
                     className="p-2 hover:bg-red-700 w-[150px] hover:text-white border border-black rounded-sm font-semibold"
                     onClick={() => addToCart(card)}
                   >
                     Add
                   </button>
-                  </div>
                 )}
               </div>
             </div>
