@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { CartContext } from "../Context/CardContext";
 import Navbar from "./Navbar";
-import Add from "./Add"; // ✅ Import the Add component
+import Add from "./Add"; 
 
 function AddCart() {
   const { cart } = useContext(CartContext);
@@ -63,7 +63,7 @@ function AddCart() {
                     </div>
                   </div>
 
-                  {/* ✅ Use the Add component instead of buttons */}
+                 
                   <Add item={item} />
 
                   <p className="font-semibold w-1/4 text-right">₹{subtotal}</p>
