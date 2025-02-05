@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { CartContext } from "./CardContext";
+import { CartContext } from "../Context/CardContext";
 import Navbar from "./Navbar";
 import Add from "./Add"; // ✅ Import the Add component
 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import Navbar from "./Navbar";
-import { CartContext } from "./CardContext";
-import Add from "./Add"; // ✅ Import Add component
+import { CartContext } from "../Context/CardContext";
+import Add from "./Add"; 
 import Save from "./Save";
 
 const ProductDetail = () => {
@@ -10,7 +10,7 @@ const ProductDetail = () => {
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const navigate = useNavigate();
-  const { cart } = useContext(CartContext);
+  const { cart, addToCart, removeFromCart } = useContext(CartContext);
 
   useEffect(() => {
     const apiUrl =
@@ -31,7 +31,8 @@ const ProductDetail = () => {
   }
 
   const remainingProducts = products.filter((item) => item.id.toString() !== id);
-  const quantity = cart[product.id]?.count || 0; // ✅ Get quantity from cart
+  const quantity = cart[product.id]?.count || 0;
+ 
 
   return (
     <>
@@ -70,7 +71,7 @@ const ProductDetail = () => {
 
             <div className="flex items-center mt-4 justify-between">
               <div>
-                <Add item={product} />
+              <Add item={product} addToCart={addToCart} removeFromCart={removeFromCart} quantity={quantity} />
               </div>
               <div className="flex items-center px-2">
                 <button className="border border-black flex items-center px-2 py-1.5 gap-2 rounded-md">

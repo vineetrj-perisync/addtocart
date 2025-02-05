@@ -1,9 +1,9 @@
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Cards from "./components/Cards";
+import Cards from "./components/Card";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AddCart from "./components/AddCart";
-import { CartProvider } from "./components/CardContext";
+import { CartProvider } from "./Context/CardContext";
 import Product from "./components/ProductDetail";
 
 function App() {

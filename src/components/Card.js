@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { CartContext } from "./CardContext";
+import { CartContext } from "../Context/CardContext";
 import { Link } from "react-router-dom";
 import Add from "./Add"; // ✅ Import the Add component
 import Save from "./Save";
